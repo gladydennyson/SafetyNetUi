@@ -71,7 +71,6 @@
     "riskAssessment": "Moderate",
     "status": "pending"
   },
-  [
     {
       "therapistName": "Sophia Johnson",
       "startTime": "2023-10-13T09:00:00",
@@ -119,6 +118,5 @@
       "clientName": "Noah Johnson",
       "riskAssessment": "High",
       "status": "alert"
-    }
-  ]  
+    } 
 ]

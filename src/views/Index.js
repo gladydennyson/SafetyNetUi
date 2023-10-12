@@ -48,16 +48,32 @@ const buttonStyleCheckIn = {
     padding: "5px",
     backgroundColor: '#0E8DEE',
     fontFamily: "Arial",
-    borderRadius: "10px"
+    borderRadius: "5px",
+    border: '1px',
+    width: '100px',
+    color: 'white'
   };
 
   const buttonStyleEndSession = {
     padding: "5px",
+    border: '1px',
     backgroundColor: '#00AA6D',
     fontFamily: "Arial",
-    borderRadius: "10px"
+    borderRadius: "5px",
+    width: '100px',
+    color:'white'
   };
   
+
+  const buttonStyleViewReport = {
+    padding: "5px",
+    border: '1px',
+    backgroundColor: '#1088EF',
+    fontFamily: "Arial",
+    borderRadius: "5px",
+    width: '100px',
+    color:'white'
+  };
 
 
 const Index = (props) => {
@@ -66,6 +82,7 @@ const Index = (props) => {
   const [chartExample1Data, setChartExample1Data] = useState("data1");
   const [data, setData] = useState(null);
   const [progressCount, setProgressCount] = useState(0);
+  const [selectedView, setSelectedView] = useState('admin');
   const [completeCount, setCompleteCount] = useState(0);
   const [alertCount, setAlertCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
@@ -112,10 +129,23 @@ const Index = (props) => {
         //   throw new Error('Network response was not ok');
         // }
         // const result = await response.json();
+
         var result = dummy;
-        setData(result);
-        setFilteredData(result);
-        computeAndPassCounts(result);
+        if(selectedView === 'therapist') {
+          const filtered = data.filter(item => item.status !== 'alert');
+          setData(filtered);
+          setSelectedView('therapist');
+          setFilteredData(filtered);
+          computeAndPassCounts(filtered);
+        } else {
+          setData(result);
+          setSelectedView('admin');
+          setFilteredData(result);
+          computeAndPassCounts(result);
+        }
+
+        
+
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
       }
@@ -217,8 +247,11 @@ const Index = (props) => {
                 {item.riskAssessment ==='High' && <td style={{color: 'red'}}>{item.riskAssessment}</td>}
                 {filterStatus === 'therapist' &&  item.status === 'pending' &&
                 <td><button style={buttonStyleCheckIn}>Check-in</button></td>}
-                {filterStatus === 'therapist' &&  item.status === 'complete' &&
+                {filterStatus === 'therapist' &&  item.status === 'progress' &&
                 <td><button style={buttonStyleEndSession}>End Sessions</button></td>}
+
+                {filterStatus === 'therapist' &&  item.status === 'complete' &&
+                <td><button style={buttonStyleViewReport}>View Report</button></td>}
                 {/* Add more table data cells for other properties */}
 
               </tr>
