@@ -82,7 +82,6 @@ const Index = (props) => {
   const [chartExample1Data, setChartExample1Data] = useState("data1");
   const [data, setData] = useState(null);
   const [progressCount, setProgressCount] = useState(0);
-  const [selectedView, setSelectedView] = useState('admin');
   const [completeCount, setCompleteCount] = useState(0);
   const [alertCount, setAlertCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
@@ -131,21 +130,10 @@ const Index = (props) => {
         // const result = await response.json();
 
         var result = dummy;
-        if(selectedView === 'therapist') {
-          const filtered = data.filter(item => item.status !== 'alert');
-          setData(filtered);
-          setSelectedView('therapist');
-          setFilteredData(filtered);
-          computeAndPassCounts(filtered);
-        } else {
+    
           setData(result);
-          setSelectedView('admin');
           setFilteredData(result);
           computeAndPassCounts(result);
-        }
-
-        
-
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
       }
