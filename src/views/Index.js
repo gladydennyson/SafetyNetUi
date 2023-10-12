@@ -48,15 +48,18 @@ const buttonStyleCheckIn = {
     padding: "5px",
     backgroundColor: '#0E8DEE',
     fontFamily: "Arial",
-    borderRadius: "10px"
+    borderRadius: "5px",
+    border: '1px',
+    width: '100px',
+    color: 'white'
   };
 
-const buttonStyleEndSession = {
-  padding: "5px",
-  backgroundColor: '#00AA6D',
-  fontFamily: "Arial",
-  borderRadius: "10px"
-};
+// const buttonStyleEndSession = {
+//   padding: "5px",
+//   backgroundColor: '#00AA6D',
+//   fontFamily: "Arial",
+//   borderRadius: "10px"
+// };
   
 const buttonStyleEscalate = {
   padding: "5px",
@@ -64,6 +67,27 @@ const buttonStyleEscalate = {
   fontFamily: "Arial",
   borderRadius: "10px"
 };
+  const buttonStyleEndSession = {
+    padding: "5px",
+    border: '1px',
+    backgroundColor: '#00AA6D',
+    fontFamily: "Arial",
+    borderRadius: "5px",
+    width: '100px',
+    color:'white'
+  };
+  
+
+  const buttonStyleViewReport = {
+    padding: "5px",
+    border: '1px',
+    backgroundColor: '#1088EF',
+    fontFamily: "Arial",
+    borderRadius: "5px",
+    width: '100px',
+    color:'white'
+  };
+
 
 const Index = (props) => {
 
@@ -85,15 +109,15 @@ const Index = (props) => {
   };
 
    // Function to handle Check-In
-   const handleCheckIn = (appointment) => {
-    const updatedData = filteredData.map((item) => {
-      if (item.id === appointment.id) {
-        return { ...item, status: 'ongoing' };
-      }
-      return item;
-    });
-    setFilteredData(updatedData);
-  };
+  //  const handleCheckIn = (appointment) => {
+  //   const updatedData = filteredData.map((item) => {
+  //     if (item.id === appointment.id) {
+  //       return { ...item, status: 'ongoing' };
+  //     }
+  //     return item;
+  //   });
+  //   setFilteredData(updatedData);
+  // };
 
 
   const filterDataByStatus = (status) => {
@@ -109,6 +133,8 @@ const Index = (props) => {
   };
 
 
+  
+
     async function fetchData() {
       try {
         // const date = '2023-10-11';
@@ -117,10 +143,12 @@ const Index = (props) => {
         //   throw new Error('Network response was not ok');
         // }
         // const result = await response.json();
+
         var result = dummy;
-        setData(result);
-        setFilteredData(result);
-        computeAndPassCounts(result);
+    
+          setData(result);
+          setFilteredData(result);
+          computeAndPassCounts(result);
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
       }
@@ -140,9 +168,13 @@ const Index = (props) => {
     console.log(`Selected view: ${selectedView}`);
     console.log('filtereddata', filteredData);
 
-    if (selectedView === 'admin' || selectedView === 'therapist') {
+    if (selectedView === 'admin') {
       setFilterStatus(selectedView);
-    } else {
+    } else if(selectedView === 'therapist'){
+      console.log('therapist');
+      setFilterStatus(selectedView);
+    }
+    else {
       // Handle other cases or filters if needed
       filterDataByStatus(selectedView);
     }
@@ -184,6 +216,8 @@ const Index = (props) => {
           </Col>
         </Row>
 
+
+
         {filterStatus === 'therapist' &&  <Col style={{ color: 'white', fontSize: '28px' }}>Appointments</Col>}
         <Row className="mt-5">
           <Col className="mb-5 mb-xl-0" xl="12">
@@ -223,11 +257,18 @@ const Index = (props) => {
                 {item.riskAssessment ==='High' && <td style={{color: 'red'}}>{item.riskAssessment}</td>}
                 {filterStatus === 'therapist' &&  item.status === 'pending' &&
                 <td><button style={buttonStyleCheckIn}>Check-in</button></td>}
-                {filterStatus === 'therapist' &&  item.status === 'complete' &&
+                {filterStatus === 'therapist' &&  item.status === 'progress' &&
                 <td><button style={buttonStyleEndSession}>End Sessions</button></td>}
                 {filterStatus === 'admin' &&  item.status === 'alert' && <td>{item.delay}</td>}
+                {filterStatus === 'admin' &&  item.status !== 'alert' && <td>N/A</td>}
                 {filterStatus === 'admin' &&  item.status === 'alert' &&
                 <td><button style={buttonStyleEscalate}>Escalate</button></td>}
+                {filterStatus === 'admin' &&  item.status !== 'alert' &&  <td>No action needed</td>}
+
+                {filterStatus === 'therapist' &&  item.status === 'complete' &&
+                <td>No Action Needed</td>}
+                {filterStatus === 'therapist' &&  item.status === 'alert' &&
+                <td>No Action Needed</td>}
                 {/* Add more table data cells for other properties */}
 
               </tr>
