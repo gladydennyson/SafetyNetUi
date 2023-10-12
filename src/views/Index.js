@@ -43,6 +43,23 @@ import {
 import Header from "components/Headers/Header.js";
 import axios from 'axios';
 
+
+const buttonStyleCheckIn = {
+    padding: "5px",
+    backgroundColor: '#0E8DEE',
+    fontFamily: "Arial",
+    borderRadius: "10px"
+  };
+
+  const buttonStyleEndSession = {
+    padding: "5px",
+    backgroundColor: '#00AA6D',
+    fontFamily: "Arial",
+    borderRadius: "10px"
+  };
+  
+
+
 const Index = (props) => {
 
   const [activeNav, setActiveNav] = useState(1);
@@ -55,16 +72,23 @@ const Index = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const [filterStatus, setFilterStatus] = useState('all'); // Initial filter
 
-  if (window.Chart) {
-    parseOptions(Chart, chartOptions());
-  }
-
-  const toggleNavs = (e, index) => {
-    e.preventDefault();
-    setActiveNav(index);
-    setChartExample1Data("data" + index);
+  const groupAppointments = () => {
+    const upcomingAppointments = filteredData.filter((item) => item.status === 'upcoming');
+    const ongoingAppointments = filteredData.filter((item) => item.status === 'ongoing');
+    const completedAppointments = filteredData.filter((item) => item.status === 'completed');
+    return { upcomingAppointments, ongoingAppointments, completedAppointments };
   };
 
+   // Function to handle Check-In
+   const handleCheckIn = (appointment) => {
+    const updatedData = filteredData.map((item) => {
+      if (item.id === appointment.id) {
+        return { ...item, status: 'ongoing' };
+      }
+      return item;
+    });
+    setFilteredData(updatedData);
+  };
 
 
   const filterDataByStatus = (status) => {
@@ -80,40 +104,50 @@ const Index = (props) => {
   };
 
 
-  async function fetchData() {
-    try {
-      // const date = '2023-10-11';
-      // const response = await fetch('http://serviceforlistener.azurewebsites.net/serviceDetails.do/dd/dd');
-      // if (!response.ok) {
-      //   throw new Error('Network response was not ok');
-      // }
-      // const result = await response.json();
-      var result = dummy;
-      setData(result);
-      setFilteredData(result);
-      computeAndPassCounts(result);
-    } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
+    async function fetchData() {
+      try {
+        // const date = '2023-10-11';
+        // const response = await fetch('http://serviceforlistener.azurewebsites.net/serviceDetails.do/dd/dd');
+        // if (!response.ok) {
+        //   throw new Error('Network response was not ok');
+        // }
+        // const result = await response.json();
+        var result = dummy;
+        setData(result);
+        setFilteredData(result);
+        computeAndPassCounts(result);
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
     }
-  }
 
-  useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await axios.get('https://cors-anywhere.herokuapp.com/http://serviceforlistener.azurewebsites.net/serviceDetails.do/dd/dd');
-    //     setData(response.data.serviceSpcifics);
-    //     computeAndPassCounts(response.data.serviceSpcifics);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
+    useEffect(() => {
+      fetchData();
+      console.log('useEffect', data);
 
-    // Call the fetchData function.
-    fetchData();
-    console.log('data', data);
+    }, []); // This empty array means it will run only once when the component mounts
 
-  }, []); // This empty array means it will run only once when the component mounts
 
+  const handleViewChange = (selectedView) => {
+
+    var result = dummy;
+    // Handle the view change here
+    console.log(`Selected view: ${selectedView}`);
+    console.log('filtereddata', filteredData);
+
+    if (selectedView === 'admin' || selectedView === 'therapist') {
+      setFilterStatus(selectedView);
+    } else {
+      // Handle other cases or filters if needed
+      filterDataByStatus(selectedView);
+    }
+    
+    // You can perform any necessary actions based on the view selection
+
+  };
+
+
+  
 
   function computeAndPassCounts(data) {
     const progressCount = data.filter(item => item.status === 'progress').length;
@@ -135,13 +169,17 @@ const Index = (props) => {
       alertCount={alertCount}
       onFilter={filterDataByStatus} 
       filterStatus={filterStatus} 
+      onViewChange={handleViewChange}
       pendingCount={pendingCount}/>
       {/* Page content */}
+      
       <Container className="mt--7" fluid>
         <Row>
           <Col className="mb-5 mb-xl-0" xl="8">
           </Col>
         </Row>
+
+        {filterStatus === 'therapist' &&  <Col style={{ color: 'white', fontSize: '28px' }}>Appointments</Col>}
         <Row className="mt-5">
           <Col className="mb-5 mb-xl-0" xl="12">
             <Card className="shadow">
@@ -163,6 +201,8 @@ const Index = (props) => {
                     <th scope="col">Appointment End Time</th>
                     <th scope="col">Client Name</th>
                     <th scope="col">Risk Assessment</th>
+                    {filterStatus === 'therapist' &&  <th>Action</th>}
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -172,8 +212,15 @@ const Index = (props) => {
                 <td>{item.startTime}</td>
                 <td>{item.endTime}</td>
                 <td>{item.clientName}</td>
-                <td>{item.riskAssessment}</td>
+                {item.riskAssessment ==='Low' && <td style={{color: 'green'}}>{item.riskAssessment}</td>}
+                {item.riskAssessment ==='Moderate' && <td style={{color: 'orange'}}>{item.riskAssessment}</td>}
+                {item.riskAssessment ==='High' && <td style={{color: 'red'}}>{item.riskAssessment}</td>}
+                {filterStatus === 'therapist' &&  item.status === 'pending' &&
+                <td><button style={buttonStyleCheckIn}>Check-in</button></td>}
+                {filterStatus === 'therapist' &&  item.status === 'complete' &&
+                <td><button style={buttonStyleEndSession}>End Sessions</button></td>}
                 {/* Add more table data cells for other properties */}
+
               </tr>
             ))}
                 </tbody>

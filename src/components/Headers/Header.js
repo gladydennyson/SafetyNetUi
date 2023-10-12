@@ -21,13 +21,13 @@ import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 
 import React, { useEffect, useState } from 'react';
 
-const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilter, filterStatus, showFilters  }) => {
+const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilter, filterStatus, showFilters, onViewChange }) => {
   const [selectedOption, setSelectedOption] = useState('admin');
 
   const handleDropdownChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedOption(selectedValue);
-    onFilter(selectedValue);
+    onViewChange(selectedValue);
   };
 
   return (
@@ -35,7 +35,7 @@ const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilt
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
         <Container style={{ padding: 20 }}>
           <div className="d-flex justify-content-end mt-3">
-            <label htmlFor="filterDropdown">View</label>
+            <label htmlFor="filterDropdown" style={{marginRight: '10px', color: 'white'}}>View</label>
             <select
               id="filterDropdown"
               value={selectedOption}
@@ -68,8 +68,8 @@ const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilt
                         </span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="fas fa-chart-bar" />
+                        <div className="icon icon-shape bg-info text-white rounded-circle shadow">
+                          <i className="fas fa-solid fa-spinner" />
                         </div>
                       </Col>
                     </Row>
@@ -77,7 +77,7 @@ const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilt
                 </Card>
               </Col>
               <Col lg="6" xl="3">
-                <Card onClick={() => onFilter('alerts')}
+                <Card onClick={() => onFilter('alert')}
                   style={{ cursor: 'pointer' }} className="card-stats mb-4 mb-xl-0">
                   <CardBody>
                     <Row>
@@ -91,8 +91,8 @@ const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilt
                         <span className="h2 font-weight-bold mb-0">{alertCount}</span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
-                          <i className="fas fa-chart-pie" />
+                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
+                          <i className="fas fa-solid fa-circle-exclamation" />
                         </div>
                       </Col>
                     </Row>
@@ -114,8 +114,8 @@ const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilt
                         <span className="h2 font-weight-bold mb-0">{pendingCount}</span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                          <i className="fas fa-users" />
+                        <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
+                          <i className="fas fa-solid fa-hourglass-start" />
                         </div>
                       </Col>
                     </Row>
@@ -137,14 +137,15 @@ const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilt
                         <span className="h2 font-weight-bold mb-0">{completeCount}</span>
                       </div>
                       <Col className="col-auto">
-                        <div className="icon icon-shape bg-info text-white rounded-circle shadow">
-                          <i className="fas fa-percent" />
+                        <div className="icon icon-shape bg-green text-white rounded-circle shadow">
+                          <i className="fas fa-solid fa-circle-check" />
                         </div>
                       </Col>
                     </Row>
                   </CardBody>
                 </Card>
               </Col>
+             
             </Row>
           </div>
         </Container>
