@@ -45,8 +45,6 @@ import axios from 'axios';
 
 const Index = (props) => {
 
-  const [selectedRole, setSelectedRole] = useState('Therapist');
-  const [checkStatus, setCheckStatus] = useState('Check-in');
   const [activeNav, setActiveNav] = useState(1);
   const [chartExample1Data, setChartExample1Data] = useState("data1");
   const [data, setData] = useState(null);
@@ -68,17 +66,6 @@ const Index = (props) => {
   };
 
 
-  const handleRoleChange = (e) => {
-    setSelectedRole(e.target.value);
-  };
-
-  const handleCheckStatusChange = () => {
-    if (checkStatus === 'Check-in') {
-      setCheckStatus('Check-out');
-    } else {
-      setCheckStatus('Check-in');
-    }
-  };
 
   const filterDataByStatus = (status) => {
     console.log('filter status', status);
@@ -143,7 +130,6 @@ const Index = (props) => {
   return (
     <>
       <Header 
-      showFilters={selectedRole === 'Admin'}
       progressCount={progressCount}
       completeCount={completeCount}
       alertCount={alertCount}
@@ -152,10 +138,6 @@ const Index = (props) => {
       pendingCount={pendingCount}/>
       {/* Page content */}
       <Container className="mt--7" fluid>
-        <select value={selectedRole} onChange={handleRoleChange}>
-          <option value="Therapist">Therapist</option>
-          <option value="Admin">Admin</option>
-        </select>
         <Row>
           <Col className="mb-5 mb-xl-0" xl="8">
           </Col>
@@ -181,14 +163,6 @@ const Index = (props) => {
                     <th scope="col">Appointment End Time</th>
                     <th scope="col">Client Name</th>
                     <th scope="col">Risk Assessment</th>
-                    {selectedRole === 'Admin' && (
-                        <th scope="col">Risk Assessment</th>
-                      )}
-                      {selectedRole === 'Admin' && (
-                        <th scope="col">
-                          Escalate to Supervisor
-                        </th>
-                      )}
                   </tr>
                 </thead>
                 <tbody>
@@ -199,23 +173,6 @@ const Index = (props) => {
                 <td>{item.endTime}</td>
                 <td>{item.clientName}</td>
                 <td>{item.riskAssessment}</td>
-                {selectedRole === 'Admin' && (
-                <td>{item.riskAssessment}</td>
-                        )}
-                        {selectedRole === 'Admin' && (
-                          <td>
-                            <Button onClick={() => console.log('Escalate')}>
-                              Escalate to Supervisor
-                            </Button>
-                          </td>
-                        )}
-                        {selectedRole === 'Therapist' && (
-                          <td>
-                            <Button onClick={handleCheckStatusChange}>
-                              {checkStatus}
-                            </Button>
-                          </td>
-                        )}
                 {/* Add more table data cells for other properties */}
               </tr>
             ))}

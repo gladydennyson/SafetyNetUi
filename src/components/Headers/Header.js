@@ -19,11 +19,34 @@
 // reactstrap components
 import { Card, CardBody, CardTitle, Container, Row, Col } from "reactstrap";
 
+import React, { useEffect, useState } from 'react';
+
 const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilter, filterStatus, showFilters  }) => {
+  const [selectedOption, setSelectedOption] = useState('admin');
+
+  const handleDropdownChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedOption(selectedValue);
+    onFilter(selectedValue);
+  };
+
   return (
     <>
-    {showFilters && <Header />} 
       <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
+        <Container style={{ padding: 20 }}>
+          <div className="d-flex justify-content-end mt-3">
+            <label htmlFor="filterDropdown">View</label>
+            <select
+              id="filterDropdown"
+              value={selectedOption}
+              onChange={handleDropdownChange}
+            >
+              <option value="therapist">Therapist</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </Container>
+      {selectedOption === 'admin' && (
         <Container fluid>
           <div className="header-body">
             {/* Card stats */}
@@ -125,6 +148,7 @@ const Header = ({ progressCount, completeCount, alertCount, pendingCount, onFilt
             </Row>
           </div>
         </Container>
+      )}
       </div>
     </>
   );
