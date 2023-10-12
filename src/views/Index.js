@@ -96,15 +96,15 @@ const Index = (props) => {
   };
 
    // Function to handle Check-In
-   const handleCheckIn = (appointment) => {
-    const updatedData = filteredData.map((item) => {
-      if (item.id === appointment.id) {
-        return { ...item, status: 'ongoing' };
-      }
-      return item;
-    });
-    setFilteredData(updatedData);
-  };
+  //  const handleCheckIn = (appointment) => {
+  //   const updatedData = filteredData.map((item) => {
+  //     if (item.id === appointment.id) {
+  //       return { ...item, status: 'ongoing' };
+  //     }
+  //     return item;
+  //   });
+  //   setFilteredData(updatedData);
+  // };
 
 
   const filterDataByStatus = (status) => {
@@ -119,6 +119,8 @@ const Index = (props) => {
     setFilterStatus(status); // Update the filter status
   };
 
+
+  
 
     async function fetchData() {
       try {
@@ -153,9 +155,13 @@ const Index = (props) => {
     console.log(`Selected view: ${selectedView}`);
     console.log('filtereddata', filteredData);
 
-    if (selectedView === 'admin' || selectedView === 'therapist') {
+    if (selectedView === 'admin') {
       setFilterStatus(selectedView);
-    } else {
+    } else if(selectedView === 'therapist'){
+      console.log('therapist');
+      setFilterStatus(selectedView);
+    }
+    else {
       // Handle other cases or filters if needed
       filterDataByStatus(selectedView);
     }
@@ -239,7 +245,7 @@ const Index = (props) => {
                 <td><button style={buttonStyleEndSession}>End Sessions</button></td>}
 
                 {filterStatus === 'therapist' &&  item.status === 'complete' &&
-                <td><button style={buttonStyleViewReport}>View Report</button></td>}
+                <td>No Action Needed</td>}
                 {/* Add more table data cells for other properties */}
 
               </tr>
