@@ -21,8 +21,7 @@
     "endTime": "2023-10-11T15:00:00",
     "clientName": "Charlie Brown",
     "riskAssessment": "High",
-    "status": "alert",
-    "delay": 20
+    "status": "alert"
   },
   {
     "therapistName": "Michael Davis",
@@ -38,8 +37,7 @@
     "endTime": "2023-10-12T10:00:00",
     "clientName": "Ella Martin",
     "riskAssessment": "High",
-    "status": "alert",
-    "delay": 15
+    "status": "alert"
   },
   {
     "therapistName": "Daniel Baker",
@@ -47,8 +45,7 @@
     "endTime": "2023-10-12T12:00:00",
     "clientName": "Freddie Turner",
     "riskAssessment": "Moderate",
-    "status": "alert",
-    "delay": 10
+    "status": "alert"
   },
   {
     "therapistName": "Michael Davis",
@@ -97,8 +94,7 @@
       "endTime": "2023-10-13T14:00:00",
       "clientName": "Isabel Martin",
       "riskAssessment": "High",
-      "status": "alert",
-      "delay": 30
+      "status": "alert"
     },
     {
       "therapistName": "Liam Harris",
@@ -122,8 +118,7 @@
       "endTime": "2023-10-14T12:00:00",
       "clientName": "Noah Johnson",
       "riskAssessment": "High",
-      "status": "alert",
-      "delay": 40
+      "status": "alert"
     }
   ]  
 ]

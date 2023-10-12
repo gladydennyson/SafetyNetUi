@@ -206,7 +206,7 @@ const Index = (props) => {
                     <th scope="col">Appointment End Time</th>
                     <th scope="col">Client Name</th>
                     <th scope="col">Risk Assessment</th>
-                    {filterStatus === 'admin' && <th scope="col">Delay</th>}
+                    <th scope="col">Delay</th>
                     <th scope="col">Action</th>
                     
                   </tr>

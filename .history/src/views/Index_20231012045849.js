@@ -60,7 +60,7 @@ const buttonStyleEndSession = {
   
 const buttonStyleEscalate = {
   padding: "5px",
-  backgroundColor: '#f5365c',
+  backgroundColor: 'f5365c',
   fontFamily: "Arial",
   borderRadius: "10px"
 };
@@ -206,8 +206,7 @@ const Index = (props) => {
                     <th scope="col">Appointment End Time</th>
                     <th scope="col">Client Name</th>
                     <th scope="col">Risk Assessment</th>
-                    {filterStatus === 'admin' && <th scope="col">Delay</th>}
-                    <th scope="col">Action</th>
+                    {filterStatus === 'therapist' &&  <th>Action</th>}
                     
                   </tr>
                 </thead>
@@ -225,8 +224,7 @@ const Index = (props) => {
                 <td><button style={buttonStyleCheckIn}>Check-in</button></td>}
                 {filterStatus === 'therapist' &&  item.status === 'complete' &&
                 <td><button style={buttonStyleEndSession}>End Sessions</button></td>}
-                {filterStatus === 'admin' &&  item.status === 'alert' && <td>{item.delay}</td>}
-                {filterStatus === 'admin' &&  item.status === 'alert' &&
+                {filterStatus === 'admin' &&  item.riskAssessment === 'High' &&
                 <td><button style={buttonStyleEscalate}>Escalate</button></td>}
                 {/* Add more table data cells for other properties */}
 

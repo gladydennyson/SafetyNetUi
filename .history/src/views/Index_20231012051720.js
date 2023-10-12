@@ -184,7 +184,7 @@ const Index = (props) => {
           </Col>
         </Row>
 
-        {filterStatus === 'therapist' &&  <Col style={{ color: 'white', fontSize: '28px' }}>Appointments</Col>}
+        {filterStatus === 'admin' &&  <Col style={{ color: 'white', fontSize: '28px' }}>Appointments</Col>}
         <Row className="mt-5">
           <Col className="mb-5 mb-xl-0" xl="12">
             <Card className="shadow">
